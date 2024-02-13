@@ -1,11 +1,20 @@
+import { useState } from "react";
+import { CiMenuFries } from "react-icons/ci";
+import { FaTimes } from "react-icons/fa";
 import { Link } from "react-scroll"
 
+
+
 const Navbar = () => {
+    const [click, setClick] = useState(false);
+
     const links = [
         { title: "Home", link: "#" },
         { title: "Blog", link: "#" },
         { title: "About", link: "#" },
     ];
+
+    const handleClick = () => setClick(!click);
 
     const hamburguerContent = <>
         <div className="lg:hidden block absolute top-16 w-full left-0 right-0 bg-slate-900">
@@ -43,17 +52,19 @@ const Navbar = () => {
                     Drakantos
                 </span>
             </div>
-            <div className="lg:flex md:flex lg:flex-1 items-center justify-end font-normal">
+
+            <div className="lg:flex md:flex lg:flex-1 items-center justify-end font-normal hidden">
                 <div>
-                    <ul className="flex gap-8 mr-16 text-[1.2rem]">
+                    <ul className="flex items-center gap-8 mr-16 text-[1.2rem]">
                         {
                             links.map((link) => (
                                 <Link
                                     spy={true}
                                     smooth={true}
                                     to={link.link}
+                                    className="cursor-pointer"
                                 >
-                                    <li>
+                                    <li className="hover:text-orange-400 hover:border-orange-400  border-b-2 border-slate-900 transition">
                                         {link.title}
                                     </li>
                                 </Link>
@@ -65,16 +76,29 @@ const Navbar = () => {
                             spy={true}
                             smooth={true}
                             to="#"
+                            className="cursor-pointer"
                         >
                             <li
-                                className="p-12 bg-orange-700 rounded hover:text-orange-400 transition"
+                                className="p-2 bg-orange-700 border-0 rounded hover:text-orange-400 transition"
                             >
-                                Official website
+                                <span className="text-[1rem]">
+                                    Official website
+                                </span>
                             </li>
                         </Link>
                     </ul>
                 </div>
             </div>
+            <div>
+                {click && hamburguerContent}
+            </div>
+
+            <button
+                className="block border-0 sm:hidden transition"
+                onClick={handleClick}
+            >
+                {click ? <FaTimes /> : <CiMenuFries />}
+            </button>
         </nav >
     );
 }
